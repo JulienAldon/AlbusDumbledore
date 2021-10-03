@@ -1,17 +1,27 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from typing import Optional
-from fastapi import FastAPI, UploadFile, File, Depends, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, UploadFile, File, Depends, HTTPException, WebSocket, WebSocketDisconnect, Request
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.responses import JSONResponse
 from passlib.context import CryptContext
+from sqlalchemy import func
 from sqlalchemy.orm import Session
+from pydantic import BaseModel
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 import csv
 import json
 from database import SessionLocal, engine
-from models import Student, House, User, Token, TokenData
+from models import Student, House, User, Token, TokenData, PointLogs, UselessModel
 import asyncio
+from websockets.protocol import State
 from jose import JWTError, jwt
 from fastapi.middleware.cors import CORSMiddleware
-from secret import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, origins
+from secret import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, origins, hiddenFlag
+
+limiter = Limiter(key_func=get_remote_address)
+
 app = FastAPI()
 
 app.add_middleware(
@@ -21,6 +31,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -53,23 +66,6 @@ def authenticate_user(username: str, password: str, user: User):
         return False
     return user
 
-class ConnectionManager:
-    def __init__(self):
-        self.active_connections: List[WebSocket] = []
-
-    async def connect(self, websocket: WebSocket):
-        await websocket.accept()
-        self.active_connections.append(websocket)
-
-    def disconnect(self, websocket: WebSocket):
-        self.active_connections.remove(websocket)
-
-    async def broadcast(self, message: str):
-        for connection in self.active_connections:
-            await connection.send_text(message)
-
-manager = ConnectionManager()
-
 async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
@@ -82,7 +78,11 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
     )
         token_data = TokenData(username=username)
     except JWTError:
-        raise credentials_exception
+        raise HTTPException(
+        status_code=401,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    ) 
     user = db.query(User).filter_by(username=token_data.username)
     if user is None:
         raise HTTPException(
@@ -116,57 +116,63 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     access_token = create_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
-    return {"access_token": access_token, "token_type": "bearer"}
+    return JSONResponse(content={"access_token": access_token, "token_type": "bearer"})
 
 @app.post('/students/import')
-async def import_students(file: UploadFile = File(...), db: Session = Depends(get_db)):
+async def import_students(file: UploadFile = File(...), db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if not current_user:
+        raise HTTPException(status_code=401, detail="User not allowed")
+    nb_added = 0
     csv_entry = file.file.read().decode().split('\r\n')
     csv_list = [tuple(n.split(',')) for n in csv_entry]
     for entry in csv_list:
-        student = Student(name=entry[0], house_id=int(entry[1]), points=0)
-        db.add(student)
+        if not db.query(Student).filter_by(name=entry[0]).first():
+            student = Student(name=entry[0], house_id=int(entry[1]), points=0)
+            db.add(student)
+            nb_added += 1
     db.commit()
-    return {'data': 'Added all listed students'}
-
-@app.websocket('/ws/houses')
-async def websocket_house_points(websocket: WebSocket, db: Session = Depends(get_db)):
-    await manager.connect(websocket)
-    try:
-        while True:
-            houses = db.query(House).all()
-            db.refresh(houses[0])
-            db.refresh(houses[1])
-            db.refresh(houses[2])
-            db.refresh(houses[3])
-            result = {
-                "Slytherin": houses[0].points,
-                "Hufflepuff": houses[1].points,
-                "Ravenclaw": houses[2].points,
-                "Gryffindor": houses[3].points,
-            }
-            print(result)
-            await manager.broadcast(json.dumps(result))
-            await asyncio.sleep(1)
-    except WebSocketDisconnect:
-        manager.disconnect(websocket)
+    if nb_added == 0:
+        return JSONResponse(content={'data': f'Added {nb_added} listed students (all of them are already in db)'})
+    return JSONResponse(content={'data': f'Added {nb_added} listed students'})
+    
+@app.get('/houses')
+@limiter.limit("5/minute")
+async def house_point(request: Request,db: Session = Depends(get_db)):
+    houses = db.query(House).all()
+    if not houses:
+        raise HTTPException(
+            status_code=404,
+            detail="Houses not found",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    result = {
+        "Slytherin": houses[0].points,
+        "Hufflepuff": houses[1].points,
+        "Ravenclaw": houses[2].points,
+        "Gryffindor": houses[3].points,
+    }
+    return JSONResponse(content=result)
 
 @app.get('/student/{student_id}')
-async def student_points(student_id: int, db: Session = Depends(get_db)):
-    # get total points and house of student_id 
+async def student_points(student_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if not current_user:
+        raise HTTPException(status_code=401, detail="User not allowed")
     try:
         student = db.query(Student).filter_by(id=student_id).first()
         house = db.query(House).filter_by(id=student.house_id).first()
     except:
         raise HTTPException(status_code=404, detail='cannot find specified student')
-    return {"student_id": student_id, "points": student.points, "house": house.name}
+    return JSONResponse(content={"student_id": student_id, "points": student.points, "house": house.name})
 
 @app.get('/house/{house_id}')
-async def house_points(house_id: int, db: Session = Depends(get_db)):
+async def house_points(house_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if not current_user:
+        raise HTTPException(status_code=401, detail="User not allowed")
     try:
         house = db.query(House).filter_by(id=house_id).first()
     except:
         raise HTTPException(status_code=404, detail='cannot find specified house')
-    return {"house": house.name, "points": house.points}
+    return JSONResponse(content={"house": house.name, "points": house.points})
 
 @app.put('/student/{student_id}/{points}')
 async def add_student_points(student_id: int, points, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
@@ -187,5 +193,31 @@ async def add_student_points(student_id: int, points, db: Session = Depends(get_
     for stud in students:
         house_points += stud.points 
     house.points = house_points
+    pts_log = PointLogs(student_name=student.name, student_points=points, date_time=datetime.now())
+    db.add(pts_log)
     db.commit()
-    return {"student": student.name, "house": {"id": house.id ,"name": house.name, "points": house.points}}
+    return JSONResponse(content={"student": student.name, "house": {"id": house.id ,"name": house.name, "points": house.points}})
+
+@app.get('/students/logs')
+async def get_student_log(db: Session = Depends(get_db)):
+    student_log = db.query(PointLogs).filter(
+        func.date(PointLogs.date_time) == date.today()
+    ).all()
+    json_student_log = [{'name': elem.student_name, 'points': elem.student_points} for elem in student_log]
+    if not json_student_log:
+        raise HTTPException(status_code=404, detail="no student log for today")
+    return JSONResponse(content=json_student_log)
+
+class UselessBody(BaseModel):
+    canWork: bool
+
+@app.get('/hidden/secret/route')
+@limiter.limit("5/minute")
+async def hidden_secret_route(request: Request, body: UselessBody, db:Session = Depends(get_db)):
+    useless = db.query(UselessModel).first()
+    if body.canWork == True and useless.hasBeenPingued == False:
+        useless.hasBeenPingued = True
+        db.commit()
+        return JSONResponse(content={'data': 'Come see an APE with the flag and open the chamber of secrets !', 'flag': hiddenFlag})
+    return JSONResponse(content={'data': 'Nothing to do here :)'})
+    

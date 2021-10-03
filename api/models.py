@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date
 from sqlalchemy.orm import relationship
 from pydantic import BaseModel
 from typing import Optional
@@ -22,6 +22,15 @@ class House(Base):
     points = Column(Integer)
     students = relationship("Student")
 
+class PointLogs(Base):
+    __tablename__ = "pointlogs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    date_time = Column(Date, index=True)
+    student_name = Column(String)
+    student_points = Column(Integer)
+    reason = Column(String)
+
 class Token(BaseModel):
     access_token: str
     token_type: str
@@ -34,3 +43,9 @@ class User(Base):
     username = Column(String, index=True)
     id = Column(Integer, primary_key=True, index=True)
     hashed_password = Column(String)
+
+class UselessModel(Base):
+    __tablename__ = "uselessmodel"
+
+    id = Column(Integer, primary_key=True, index=True)
+    hasBeenPingued = Column(Boolean)
