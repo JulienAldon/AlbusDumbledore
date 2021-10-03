@@ -16,6 +16,6 @@ services:
     environment:
       FASTAPI_ENV: prod
     expose:
-      - 8000
+      - 8081
     depends_on:
       - postgres
