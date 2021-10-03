@@ -15,7 +15,7 @@ services:
     build: api
     environment:
       FASTAPI_ENV: prod
-    expose:
+    ports:
       - 8081
     depends_on:
       - postgres
