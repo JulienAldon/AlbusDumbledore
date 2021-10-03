@@ -174,8 +174,11 @@ async def house_points(house_id: int, db: Session = Depends(get_db), current_use
         raise HTTPException(status_code=404, detail='cannot find specified house')
     return JSONResponse(content={"house": house.name, "points": house.points})
 
+class ReasonBody(BaseModel):
+    reason: str
+
 @app.put('/student/{student_id}/{points}')
-async def add_student_points(student_id: int, points, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+async def add_student_points(r_body: ReasonBody, student_id: int, points, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     if not current_user:
         raise HTTPException(status_code=401, detail="User not allowed")
     student = db.query(Student).filter_by(id=student_id).first()
@@ -193,7 +196,7 @@ async def add_student_points(student_id: int, points, db: Session = Depends(get_
     for stud in students:
         house_points += stud.points 
     house.points = house_points
-    pts_log = PointLogs(student_name=student.name, student_points=points, date_time=datetime.now())
+    pts_log = PointLogs(student_name=student.name, student_points=points, date_time=datetime.now(), reason=r_body.reason)
     db.add(pts_log)
     db.commit()
     return JSONResponse(content={"student": student.name, "house": {"id": house.id ,"name": house.name, "points": house.points}})
@@ -203,7 +206,7 @@ async def get_student_log(db: Session = Depends(get_db)):
     student_log = db.query(PointLogs).filter(
         func.date(PointLogs.date_time) == date.today()
     ).all()
-    json_student_log = [{'name': elem.student_name, 'points': elem.student_points} for elem in student_log]
+    json_student_log = [{'name': elem.student_name, 'points': elem.student_points, 'reason': elem.reason} for elem in student_log]
     if not json_student_log:
         raise HTTPException(status_code=404, detail="no student log for today")
     return JSONResponse(content=json_student_log)
