@@ -174,11 +174,8 @@ async def house_points(house_id: int, db: Session = Depends(get_db), current_use
         raise HTTPException(status_code=404, detail='cannot find specified house')
     return JSONResponse(content={"house": house.name, "points": house.points})
 
-class ReasonBody(BaseModel):
-    reason: str
-
 @app.put('/student/{student_id}/{points}')
-async def add_student_points(r_body: ReasonBody, student_id: int, points, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+async def add_student_points(student_id: int, points, db: Session = Depends(get_db), current_user: User = Depends(get_current_user), reason: Optional[str] = ""):
     if not current_user:
         raise HTTPException(status_code=401, detail="User not allowed")
     student = db.query(Student).filter_by(id=student_id).first()
@@ -196,7 +193,7 @@ async def add_student_points(r_body: ReasonBody, student_id: int, points, db: Se
     for stud in students:
         house_points += stud.points 
     house.points = house_points
-    pts_log = PointLogs(student_name=student.name, student_points=points, date_time=datetime.now(), reason=r_body.reason)
+    pts_log = PointLogs(student_name=student.name, student_points=points, date_time=datetime.now(), reason=reason)
     db.add(pts_log)
     db.commit()
     return JSONResponse(content={"student": student.name, "house": {"id": house.id ,"name": house.name, "points": house.points}})
