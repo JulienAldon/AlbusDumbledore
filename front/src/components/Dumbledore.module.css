@@ -1,0 +1,11 @@
+div.dumbledore {
+    margin: .5 rem;
+}
+
+div.dumbledore label {
+    display: block;
+}
+
+div.dumbledore > input {
+    display: block;
+}

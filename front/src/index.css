@@ -1,0 +1,76 @@
+@import url('http://fonts.cdnfonts.com/css/harry-potter');
+
+
+body, html {
+  padding: 0;
+  margin: 0;
+}
+
+#root {
+  margin: 0;
+  padding: 0;
+  background: #1D2021;
+  color: #EBDBB2;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 30vw;
+  grid-template-rows: 1fr max-content;
+  flex-flow: row;
+  font-family: sans-serif;
+  overflow: hidden;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+:root {
+  /* Gryffindor */
+  --gf-dark-red: #740001;
+  --gf-light-red: #AE0001;
+  --gf-dark-gold: #D3A625;
+  --gf-light-gold: #EEBA30;
+
+  /* Slytherin */
+  --sy-dark-green: #1A472A;
+  --sy-light-green: #2A623D;
+  --sy-dark-silver: #5D5D5D;
+  --sy-light-silver: #AAAAAA;
+
+  /* Ravenclaw */
+  --rc-dark-blue: #0E1A40;
+  --rc-light-blue: #222F5B;
+  --rc-grey: #5D5D5D;
+  --rc-bronze: #5D5D5D;
+
+  /* Hufflepuff */
+  --hp-light-yellow: #FFF4B1;
+  --hp-medium-yellow: #FFED86;
+  --hp-dark-yellow: #FFDB00;
+  --hp-grey: #60605C;
+}
+
+.gryffindor {
+  background: rgba(204, 36, 29, 0.5);
+}
+
+.hufflepuff {
+  background: rgba(250, 189, 47, 0.5);
+}
+
+.ravenclaw {
+  background: rgba(69, 133, 136, 0.5);
+}
+
+.slytherin {
+  background: rgba(152, 151, 26, 0.5);
+}
+
+@media (min-height: 100vw) {
+  #root {
+    flex-flow: column;
+    overflow: auto;
+    display: flex;
+  }
+}

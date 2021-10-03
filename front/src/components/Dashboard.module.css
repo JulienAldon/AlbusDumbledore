@@ -1,0 +1,188 @@
+.gauges {
+    --base-scale: 35vmin;
+    flex: 1 0 100vh;
+    display: grid;
+    grid-template-rows: repeat(2, var(--base-scale));
+    grid-template-columns: repeat(2, var(--base-scale));
+    align-items: flex-end;
+    justify-items: flex-end;
+    align-content: center;
+    justify-content: center;
+    background: url("../latest.jpeg");
+    background-size: cover;
+    grid-row: 1;
+    grid-column: 1;
+}
+
+main.gauges > * {
+    --size: 1;
+    display: block;
+    width: calc(var(--size) * var(--base-scale));
+    height: calc(var(--size) * var(--base-scale));
+    position: relative;
+}
+
+main.gauges .gryffindor {
+    align-self: flex-end;
+    justify-self: flex-end;
+    border-radius: 100% 0 0 0;
+}
+
+main.gauges .hufflepuff {
+    align-self: flex-end;
+    justify-self: flex-start;
+    border-radius: 0 100% 0 0;
+}
+
+main.gauges .ravenclaw {
+    align-self: flex-start;
+    justify-self: flex-end;
+    border-radius: 0 0 0 100%;
+}
+
+main.gauges .slytherin {
+    align-self: flex-start;
+    justify-self: flex-start;
+    border-radius: 0 0 100% 0;
+}
+
+.scores {
+    grid-row: 2;
+    grid-column: 1;
+    display: flex;
+    flex-flow: row;
+    justify-content: stretch;
+}
+
+.scores > * {
+    flex: 1;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: max-content 1fr;
+    align-items: center;
+    justify-items: center;
+    padding: 0.5em;
+}
+
+.scores img {
+    grid-row: 1 / 3;
+    grid-column: 1;
+    height: 3em;
+    height: 5em;
+}
+
+.scores h3 {
+    margin: 0;
+    grid-column: 2;
+    grid-row: 1;
+    align-self: flex-end;
+}
+
+.scores p {
+    margin: 0;
+    grid-column: 2;
+    grid-row: 2;
+    align-self: flex-start;
+
+}
+
+.log {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+    flex: 0 0 30vw;
+    background: #282828;
+    box-shadow: 0 0 0.75em rgba(0, 0, 0, 0.5);
+    max-height: 100vh;
+    overflow: auto;
+}
+
+.log thead {
+    font-weight: bold;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    background: #282828;
+}
+
+.log tbody {
+    text-align: center;
+    overflow-y: auto;
+}
+
+.log tbody td {
+    max-width: 15vw;
+    padding: 0.25em;
+}
+
+.log tbody td div {
+    padding-top: .25em;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
+.log tbody td div:last-child {
+    opacity: .5;
+}
+
+.log thead th {
+    padding: 0.5em;
+}
+
+.log table {
+    flex: 0 0 auto;
+    border-collapse: collapse;
+}
+
+.log img {
+    height: 3rem;
+}
+
+.logImage {
+    width: 3rem;
+}
+
+.logPoints {
+    width: 3rem;
+}
+
+.admin {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    color: unset;
+    font-size: 2em;
+    padding: 1em 2em;
+    border-radius: 0.25em;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+.admin:hover {
+    opacity: 1;
+}
+
+@media (min-height: 100vw) {
+    .log {
+        max-height: unset;
+        flex-grow: 1;
+        flex-basis: auto;
+    }
+
+    .scores {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: max-content max-content;
+    }
+
+    main.gauges {
+        flex-grow: 0;
+        flex-basis: auto;
+        padding: 2em 1em;
+        --main-gauges: 45vmin;
+    }
+}

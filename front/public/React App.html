@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:3000/ -->
+<html lang="en"><style id="shieldStyle" type="text/css"> #SauronShield{position: fixed; height: 100%; width: 100%; top:0; left: 0; background: rgb(0,0,0); z-index:101;}</style><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <link rel="icon" href="http://localhost:3000/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Web site created using create-react-app">
+    <link rel="apple-touch-icon" href="http://localhost:3000/logo192.png">
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="http://localhost:3000/manifest.json">
+    <!--
+      Notice the use of  in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>React App</title>
+  <style>@import url(http://fonts.cdnfonts.com/css/harry-potter);</style><style>#root {
+  margin: 0;
+  background: #1D2021;
+  color: #EBDBB2;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr minmax(30vw, max-content);
+  grid-template-rows: 1fr max-content;
+  flex-flow: row;
+  font-family: sans-serif;
+  overflow: hidden;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+:root {
+  /* Gryffindor */
+  --gf-dark-red: #740001;
+  --gf-light-red: #AE0001;
+  --gf-dark-gold: #D3A625;
+  --gf-light-gold: #EEBA30;
+
+  /* Slytherin */
+  --sy-dark-green: #1A472A;
+  --sy-light-green: #2A623D;
+  --sy-dark-silver: #5D5D5D;
+  --sy-light-silver: #AAAAAA;
+
+  /* Ravenclaw */
+  --rc-dark-blue: #0E1A40;
+  --rc-light-blue: #222F5B;
+  --rc-grey: #5D5D5D;
+  --rc-bronze: #5D5D5D;
+
+  /* Hufflepuff */
+  --hp-light-yellow: #FFF4B1;
+  --hp-medium-yellow: #FFED86;
+  --hp-dark-yellow: #FFDB00;
+  --hp-grey: #60605C;
+}
+
+.gryffindor {
+  background: rgba(204, 36, 29, 0.5);
+}
+
+.hufflepuff {
+  background: rgba(250, 189, 47, 0.5);
+}
+
+.ravenclaw {
+  background: rgba(69, 133, 136, 0.5);
+}
+
+.slytherin {
+  background: rgba(152, 151, 26, 0.5);
+}
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9zcmMvaW5kZXguY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUVBO0VBQ0UsU0FBUztFQUNULG1CQUFtQjtFQUNuQixjQUFjO0VBQ2QsYUFBYTtFQUNiLGFBQWE7RUFDYixvREFBb0Q7RUFDcEQsbUNBQW1DO0VBQ25DLGNBQWM7RUFDZCx1QkFBdUI7RUFDdkIsZ0JBQWdCO0FBQ2xCOztBQUVBO0VBQ0U7YUFDVztBQUNiOztBQUVBO0VBQ0UsZUFBZTtFQUNmLHNCQUFzQjtFQUN0Qix1QkFBdUI7RUFDdkIsdUJBQXVCO0VBQ3ZCLHdCQUF3Qjs7RUFFeEIsY0FBYztFQUNkLHdCQUF3QjtFQUN4Qix5QkFBeUI7RUFDekIseUJBQXlCO0VBQ3pCLDBCQUEwQjs7RUFFMUIsY0FBYztFQUNkLHVCQUF1QjtFQUN2Qix3QkFBd0I7RUFDeEIsa0JBQWtCO0VBQ2xCLG9CQUFvQjs7RUFFcEIsZUFBZTtFQUNmLDBCQUEwQjtFQUMxQiwyQkFBMkI7RUFDM0IseUJBQXlCO0VBQ3pCLGtCQUFrQjtBQUNwQjs7QUFFQTtFQUNFLGtDQUFrQztBQUNwQzs7QUFFQTtFQUNFLG1DQUFtQztBQUNyQzs7QUFFQTtFQUNFLG1DQUFtQztBQUNyQzs7QUFFQTtFQUNFLG1DQUFtQztBQUNyQyIsInNvdXJjZXNDb250ZW50IjpbIkBpbXBvcnQgdXJsKCdodHRwOi8vZm9udHMuY2RuZm9udHMuY29tL2Nzcy9oYXJyeS1wb3R0ZXInKTtcblxuI3Jvb3Qge1xuICBtYXJnaW46IDA7XG4gIGJhY2tncm91bmQ6ICMxRDIwMjE7XG4gIGNvbG9yOiAjRUJEQkIyO1xuICBoZWlnaHQ6IDEwMHZoO1xuICBkaXNwbGF5OiBncmlkO1xuICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IDFmciBtaW5tYXgoMzB2dywgbWF4LWNvbnRlbnQpO1xuICBncmlkLXRlbXBsYXRlLXJvd3M6IDFmciBtYXgtY29udGVudDtcbiAgZmxleC1mbG93OiByb3c7XG4gIGZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmO1xuICBvdmVyZmxvdzogaGlkZGVuO1xufVxuXG5jb2RlIHtcbiAgZm9udC1mYW1pbHk6IHNvdXJjZS1jb2RlLXBybywgTWVubG8sIE1vbmFjbywgQ29uc29sYXMsICdDb3VyaWVyIE5ldycsXG4gICAgbW9ub3NwYWNlO1xufVxuXG46cm9vdCB7XG4gIC8qIEdyeWZmaW5kb3IgKi9cbiAgLS1nZi1kYXJrLXJlZDogIzc0MDAwMTtcbiAgLS1nZi1saWdodC1yZWQ6ICNBRTAwMDE7XG4gIC0tZ2YtZGFyay1nb2xkOiAjRDNBNjI1O1xuICAtLWdmLWxpZ2h0LWdvbGQ6ICNFRUJBMzA7XG5cbiAgLyogU2x5dGhlcmluICovXG4gIC0tc3ktZGFyay1ncmVlbjogIzFBNDcyQTtcbiAgLS1zeS1saWdodC1ncmVlbjogIzJBNjIzRDtcbiAgLS1zeS1kYXJrLXNpbHZlcjogIzVENUQ1RDtcbiAgLS1zeS1saWdodC1zaWx2ZXI6ICNBQUFBQUE7XG5cbiAgLyogUmF2ZW5jbGF3ICovXG4gIC0tcmMtZGFyay1ibHVlOiAjMEUxQTQwO1xuICAtLXJjLWxpZ2h0LWJsdWU6ICMyMjJGNUI7XG4gIC0tcmMtZ3JleTogIzVENUQ1RDtcbiAgLS1yYy1icm9uemU6ICM1RDVENUQ7XG5cbiAgLyogSHVmZmxlcHVmZiAqL1xuICAtLWhwLWxpZ2h0LXllbGxvdzogI0ZGRjRCMTtcbiAgLS1ocC1tZWRpdW0teWVsbG93OiAjRkZFRDg2O1xuICAtLWhwLWRhcmsteWVsbG93OiAjRkZEQjAwO1xuICAtLWhwLWdyZXk6ICM2MDYwNUM7XG59XG5cbi5ncnlmZmluZG9yIHtcbiAgYmFja2dyb3VuZDogcmdiYSgyMDQsIDM2LCAyOSwgMC41KTtcbn1cblxuLmh1ZmZsZXB1ZmYge1xuICBiYWNrZ3JvdW5kOiByZ2JhKDI1MCwgMTg5LCA0NywgMC41KTtcbn1cblxuLnJhdmVuY2xhdyB7XG4gIGJhY2tncm91bmQ6IHJnYmEoNjksIDEzMywgMTM2LCAwLjUpO1xufVxuXG4uc2x5dGhlcmluIHtcbiAgYmFja2dyb3VuZDogcmdiYSgxNTIsIDE1MSwgMjYsIDAuNSk7XG59Il0sInNvdXJjZVJvb3QiOiIifQ== */</style><style>form.Login_login__16f38 {
+    display: table;
+}
+
+form.Login_login__16f38 > div {
+    display: table-row;
+}
+
+form.Login_login__16f38 label {
+    display: table-cell;
+}
+
+form.Login_login__16f38 input {
+    display: table-cell;
+}
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9zcmMvY29tcG9uZW50cy9Mb2dpbi5tb2R1bGUuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0ksY0FBYztBQUNsQjs7QUFFQTtJQUNJLGtCQUFrQjtBQUN0Qjs7QUFFQTtJQUNJLG1CQUFtQjtBQUN2Qjs7QUFFQTtJQUNJLG1CQUFtQjtBQUN2QiIsInNvdXJjZXNDb250ZW50IjpbImZvcm0ubG9naW4ge1xuICAgIGRpc3BsYXk6IHRhYmxlO1xufVxuXG5mb3JtLmxvZ2luID4gZGl2IHtcbiAgICBkaXNwbGF5OiB0YWJsZS1yb3c7XG59XG5cbmZvcm0ubG9naW4gbGFiZWwge1xuICAgIGRpc3BsYXk6IHRhYmxlLWNlbGw7XG59XG5cbmZvcm0ubG9naW4gaW5wdXQge1xuICAgIGRpc3BsYXk6IHRhYmxlLWNlbGw7XG59Il0sInNvdXJjZVJvb3QiOiIifQ== */</style><style>.Dashboard_gauges__1SlIq {
+    --base-scale: 35vmin;
+    flex: 1 0 100vh;
+    display: grid;
+    grid-template-rows: repeat(2, var(--base-scale));
+    grid-template-columns: repeat(2, var(--base-scale));
+    align-items: flex-end;
+    justify-items: flex-end;
+    align-content: center;
+    justify-content: center;
+    background: url(/static/media/latest.1d401d6f.jpeg);
+    background-size: cover;
+    grid-row: 1;
+    grid-column: 1;
+}
+
+main.Dashboard_gauges__1SlIq > * {
+    --size: 1;
+    display: block;
+    width: calc(var(--size) * var(--base-scale));
+    height: calc(var(--size) * var(--base-scale));
+    position: relative;
+}
+
+main.Dashboard_gauges__1SlIq .Dashboard_gryffindor__1UmAJ {
+    align-self: flex-end;
+    justify-self: flex-end;
+    border-radius: 100% 0 0 0;
+}
+
+main.Dashboard_gauges__1SlIq .Dashboard_hufflepuff__1O5pl {
+    align-self: flex-end;
+    justify-self: flex-start;
+    border-radius: 0 100% 0 0;
+}
+
+main.Dashboard_gauges__1SlIq .Dashboard_ravenclaw__2lLwg {
+    align-self: flex-start;
+    justify-self: flex-end;
+    border-radius: 0 0 0 100%;
+}
+
+main.Dashboard_gauges__1SlIq .Dashboard_slytherin__NyAng {
+    align-self: flex-start;
+    justify-self: flex-start;
+    border-radius: 0 0 100% 0;
+}
+
+.Dashboard_scores__3ub4S {
+    grid-row: 2;
+    grid-column: 1;
+    display: flex;
+    flex-flow: row;
+    justify-content: stretch;
+}
+
+.Dashboard_scores__3ub4S > * {
+    flex: 1 1;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: max-content 1fr;
+    align-items: center;
+    justify-items: center;
+    padding: 0.5em;
+}
+
+.Dashboard_scores__3ub4S img {
+    grid-row: 1 / 3;
+    grid-column: 1;
+    height: 3em;
+    height: 5em;
+}
+
+.Dashboard_scores__3ub4S h3 {
+    margin: 0;
+    grid-column: 2;
+    grid-row: 1;
+    align-self: flex-end;
+}
+
+.Dashboard_scores__3ub4S p {
+    margin: 0;
+    grid-column: 2;
+    grid-row: 2;
+    align-self: flex-start;
+
+}
+
+.Dashboard_log__1rVO_ {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+    flex: 0 0 30vw;
+    background: #282828;
+    box-shadow: 0 0 0.75em rgba(0, 0, 0, 0.5);
+    max-height: 100vh;
+    overflow: auto;
+}
+
+.Dashboard_log__1rVO_ thead {
+    font-weight: bold;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    background: #282828;
+}
+
+.Dashboard_log__1rVO_ tbody {
+    text-align: center;
+    overflow-y: auto;
+}
+
+.Dashboard_log__1rVO_ tbody td {
+    padding: 0.25em;
+}
+
+.Dashboard_log__1rVO_ thead th {
+    padding: 0.5em;
+}
+
+.Dashboard_log__1rVO_ table {
+    flex: 0 0 auto;
+    border-collapse: collapse;
+}
+
+.Dashboard_log__1rVO_ img {
+    height: 3rem;
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9zcmMvY29tcG9uZW50cy9EYXNoYm9hcmQubW9kdWxlLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLG9CQUFvQjtJQUNwQixlQUFlO0lBQ2YsYUFBYTtJQUNiLGdEQUFnRDtJQUNoRCxtREFBbUQ7SUFDbkQscUJBQXFCO0lBQ3JCLHVCQUF1QjtJQUN2QixxQkFBcUI7SUFDckIsdUJBQXVCO0lBQ3ZCLG1EQUFpQztJQUNqQyxzQkFBc0I7SUFDdEIsV0FBVztJQUNYLGNBQWM7QUFDbEI7O0FBRUE7SUFDSSxTQUFTO0lBQ1QsY0FBYztJQUNkLDRDQUE0QztJQUM1Qyw2Q0FBNkM7SUFDN0Msa0JBQWtCO0FBQ3RCOztBQUVBO0lBQ0ksb0JBQW9CO0lBQ3BCLHNCQUFzQjtJQUN0Qix5QkFBeUI7QUFDN0I7O0FBRUE7SUFDSSxvQkFBb0I7SUFDcEIsd0JBQXdCO0lBQ3hCLHlCQUF5QjtBQUM3Qjs7QUFFQTtJQUNJLHNCQUFzQjtJQUN0QixzQkFBc0I7SUFDdEIseUJBQXlCO0FBQzdCOztBQUVBO0lBQ0ksc0JBQXNCO0lBQ3RCLHdCQUF3QjtJQUN4Qix5QkFBeUI7QUFDN0I7O0FBRUE7SUFDSSxXQUFXO0lBQ1gsY0FBYztJQUNkLGFBQWE7SUFDYixjQUFjO0lBQ2Qsd0JBQXdCO0FBQzVCOztBQUVBO0lBQ0ksU0FBTztJQUNQLGFBQWE7SUFDYiwyQkFBMkI7SUFDM0Isc0NBQXNDO0lBQ3RDLG1CQUFtQjtJQUNuQixxQkFBcUI7SUFDckIsY0FBYztBQUNsQjs7QUFFQTtJQUNJLGVBQWU7SUFDZixjQUFjO0lBQ2QsV0FBVztJQUNYLFdBQVc7QUFDZjs7QUFFQTtJQUNJLFNBQVM7SUFDVCxjQUFjO0lBQ2QsV0FBVztJQUNYLG9CQUFvQjtBQUN4Qjs7QUFFQTtJQUNJLFNBQVM7SUFDVCxjQUFjO0lBQ2QsV0FBVztJQUNYLHNCQUFzQjs7QUFFMUI7O0FBRUE7SUFDSSxjQUFjO0lBQ2QsZUFBZTtJQUNmLGFBQWE7SUFDYixpQkFBaUI7SUFDakIsb0JBQW9CO0lBQ3BCLGNBQWM7SUFDZCxtQkFBbUI7SUFDbkIseUNBQXlDO0lBQ3pDLGlCQUFpQjtJQUNqQixjQUFjO0FBQ2xCOztBQUVBO0lBQ0ksaUJBQWlCO0lBQ2pCLGtCQUFrQjtJQUNsQixnQkFBZ0I7SUFDaEIsTUFBTTtJQUNOLG1CQUFtQjtBQUN2Qjs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixnQkFBZ0I7QUFDcEI7O0FBRUE7SUFDSSxlQUFlO0FBQ25COztBQUVBO0lBQ0ksY0FBYztBQUNsQjs7QUFFQTtJQUNJLGNBQWM7SUFDZCx5QkFBeUI7QUFDN0I7O0FBRUE7SUFDSSxZQUFZO0FBQ2hCIiwic291cmNlc0NvbnRlbnQiOlsiLmdhdWdlcyB7XG4gICAgLS1iYXNlLXNjYWxlOiAzNXZtaW47XG4gICAgZmxleDogMSAwIDEwMHZoO1xuICAgIGRpc3BsYXk6IGdyaWQ7XG4gICAgZ3JpZC10ZW1wbGF0ZS1yb3dzOiByZXBlYXQoMiwgdmFyKC0tYmFzZS1zY2FsZSkpO1xuICAgIGdyaWQtdGVtcGxhdGUtY29sdW1uczogcmVwZWF0KDIsIHZhcigtLWJhc2Utc2NhbGUpKTtcbiAgICBhbGlnbi1pdGVtczogZmxleC1lbmQ7XG4gICAganVzdGlmeS1pdGVtczogZmxleC1lbmQ7XG4gICAgYWxpZ24tY29udGVudDogY2VudGVyO1xuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgIGJhY2tncm91bmQ6IHVybChcIi4uL2xhdGVzdC5qcGVnXCIpO1xuICAgIGJhY2tncm91bmQtc2l6ZTogY292ZXI7XG4gICAgZ3JpZC1yb3c6IDE7XG4gICAgZ3JpZC1jb2x1bW46IDE7XG59XG5cbm1haW4uZ2F1Z2VzID4gKiB7XG4gICAgLS1zaXplOiAxO1xuICAgIGRpc3BsYXk6IGJsb2NrO1xuICAgIHdpZHRoOiBjYWxjKHZhcigtLXNpemUpICogdmFyKC0tYmFzZS1zY2FsZSkpO1xuICAgIGhlaWdodDogY2FsYyh2YXIoLS1zaXplKSAqIHZhcigtLWJhc2Utc2NhbGUpKTtcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG59XG5cbm1haW4uZ2F1Z2VzIC5ncnlmZmluZG9yIHtcbiAgICBhbGlnbi1zZWxmOiBmbGV4LWVuZDtcbiAgICBqdXN0aWZ5LXNlbGY6IGZsZXgtZW5kO1xuICAgIGJvcmRlci1yYWRpdXM6IDEwMCUgMCAwIDA7XG59XG5cbm1haW4uZ2F1Z2VzIC5odWZmbGVwdWZmIHtcbiAgICBhbGlnbi1zZWxmOiBmbGV4LWVuZDtcbiAgICBqdXN0aWZ5LXNlbGY6IGZsZXgtc3RhcnQ7XG4gICAgYm9yZGVyLXJhZGl1czogMCAxMDAlIDAgMDtcbn1cblxubWFpbi5nYXVnZXMgLnJhdmVuY2xhdyB7XG4gICAgYWxpZ24tc2VsZjogZmxleC1zdGFydDtcbiAgICBqdXN0aWZ5LXNlbGY6IGZsZXgtZW5kO1xuICAgIGJvcmRlci1yYWRpdXM6IDAgMCAwIDEwMCU7XG59XG5cbm1haW4uZ2F1Z2VzIC5zbHl0aGVyaW4ge1xuICAgIGFsaWduLXNlbGY6IGZsZXgtc3RhcnQ7XG4gICAganVzdGlmeS1zZWxmOiBmbGV4LXN0YXJ0O1xuICAgIGJvcmRlci1yYWRpdXM6IDAgMCAxMDAlIDA7XG59XG5cbi5zY29yZXMge1xuICAgIGdyaWQtcm93OiAyO1xuICAgIGdyaWQtY29sdW1uOiAxO1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC1mbG93OiByb3c7XG4gICAganVzdGlmeS1jb250ZW50OiBzdHJldGNoO1xufVxuXG4uc2NvcmVzID4gKiB7XG4gICAgZmxleDogMTtcbiAgICBkaXNwbGF5OiBncmlkO1xuICAgIGdyaWQtdGVtcGxhdGUtcm93czogMWZyIDFmcjtcbiAgICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IG1heC1jb250ZW50IDFmcjtcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgIGp1c3RpZnktaXRlbXM6IGNlbnRlcjtcbiAgICBwYWRkaW5nOiAwLjVlbTtcbn1cblxuLnNjb3JlcyBpbWcge1xuICAgIGdyaWQtcm93OiAxIC8gMztcbiAgICBncmlkLWNvbHVtbjogMTtcbiAgICBoZWlnaHQ6IDNlbTtcbiAgICBoZWlnaHQ6IDVlbTtcbn1cblxuLnNjb3JlcyBoMyB7XG4gICAgbWFyZ2luOiAwO1xuICAgIGdyaWQtY29sdW1uOiAyO1xuICAgIGdyaWQtcm93OiAxO1xuICAgIGFsaWduLXNlbGY6IGZsZXgtZW5kO1xufVxuXG4uc2NvcmVzIHAge1xuICAgIG1hcmdpbjogMDtcbiAgICBncmlkLWNvbHVtbjogMjtcbiAgICBncmlkLXJvdzogMjtcbiAgICBhbGlnbi1zZWxmOiBmbGV4LXN0YXJ0O1xuXG59XG5cbi5sb2cge1xuICAgIGdyaWQtY29sdW1uOiAyO1xuICAgIGdyaWQtcm93OiAxIC8gMztcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZmxvdzogY29sdW1uO1xuICAgIGFsaWduLWl0ZW1zOiBzdHJldGNoO1xuICAgIGZsZXg6IDAgMCAzMHZ3O1xuICAgIGJhY2tncm91bmQ6ICMyODI4Mjg7XG4gICAgYm94LXNoYWRvdzogMCAwIDAuNzVlbSByZ2JhKDAsIDAsIDAsIDAuNSk7XG4gICAgbWF4LWhlaWdodDogMTAwdmg7XG4gICAgb3ZlcmZsb3c6IGF1dG87XG59XG5cbi5sb2cgdGhlYWQge1xuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICBwb3NpdGlvbjogc3RpY2t5O1xuICAgIHRvcDogMDtcbiAgICBiYWNrZ3JvdW5kOiAjMjgyODI4O1xufVxuXG4ubG9nIHRib2R5IHtcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gICAgb3ZlcmZsb3cteTogYXV0bztcbn1cblxuLmxvZyB0Ym9keSB0ZCB7XG4gICAgcGFkZGluZzogMC4yNWVtO1xufVxuXG4ubG9nIHRoZWFkIHRoIHtcbiAgICBwYWRkaW5nOiAwLjVlbTtcbn1cblxuLmxvZyB0YWJsZSB7XG4gICAgZmxleDogMCAwIGF1dG87XG4gICAgYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTtcbn1cblxuLmxvZyBpbWcge1xuICAgIGhlaWdodDogM3JlbTtcbn1cbiJdLCJzb3VyY2VSb290IjoiIn0= */</style><script charset="utf-8" src="./React App_files/main.096e3a6674642a49ef13.hot-update.js"></script><script charset="utf-8" src="./React App_files/main.4303542e0a0c6f4699b3.hot-update.js"></script></head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"><main class="Dashboard_gauges__1SlIq gauges"><div data-score="99999" class="Dashboard_gryffindor__1UmAJ gryffindor"></div><div data-score="99999" class="Dashboard_hufflepuff__1O5pl hufflepuff"></div><div data-score="99999" class="Dashboard_ravenclaw__2lLwg ravenclaw"></div><div data-score="99999" class="Dashboard_slytherin__NyAng slytherin"></div></main><aside class="Dashboard_scores__3ub4S"><div class="gryffindor"><img class="large house" src="./React App_files/gryffindor.png" alt="Gryffindor"><h3>Gryffindor</h3><p>99999</p></div><div class="hufflepuff"><img class="large house" src="./React App_files/hufflepuff.png" alt="Hufflepuff"><h3>Hufflepuff</h3><p>99999</p></div><div class="ravenclaw"><img class="large house" src="./React App_files/ravenclaw.png" alt="Ravenclaw"><h3>Ravenclaw</h3><p>99999</p></div><div class="slytherin"><img class="large house" src="./React App_files/slytherin.png" alt="Slytherin"><h3>Slytherin</h3><p>99999</p></div></aside><div class="Dashboard_log__1rVO_"><table><thead><tr><th>House</th><th>Login</th><th>Points</th></tr></thead><tbody><tr class="gryffindor"><td><img class="undefined" src="./React App_files/gryffindor.png" alt="Gryffindor"></td><td>albus.dumbledore@epitech.eu</td><td>+50</td></tr><tr class="gryffindor"><td><img class="undefined" src="./React App_files/gryffindor.png" alt="Gryffindor"></td><td>albus.dumbledore@epitech.eu</td><td>+50</td></tr><tr class="gryffindor"><td><img class="undefined" src="./React App_files/gryffindor.png" alt="Gryffindor"></td><td>albus.dumbledore@epitech.eu</td><td>+50</td></tr><tr class="gryffindor"><td><img class="undefined" src="./React App_files/gryffindor.png" alt="Gryffindor"></td><td>albus.dumbledore@epitech.eu</td><td>+50</td></tr><tr class="gryffindor"><td><img class="undefined" src="./React App_files/gryffindor.png" alt="Gryffindor"></td><td>albus.dumbledore@epitech.eu</td><td>+50</td></tr><tr class="gryffindor"><td><img class="undefined" src="./React App_files/gryffindor.png" alt="Gryffindor"></td><td>albus.dumbledore@epitech.eu</td><td>+50</td></tr><tr class="gryffindor"><td><img class="undefined" src="./React App_files/gryffindor.png" alt="Gryffindor"></td><td>albus.dumbledore@epitech.eu</td><td>+50</td></tr><tr class="gryffindor"><td><img class="undefined" src="./React App_files/gryffindor.png" alt="Gryffindor"></td><td>albus.dumbledore@epitech.eu</td><td>+50</td></tr><tr class="gryffindor"><td><img class="undefined" src="./React App_files/gryffindor.png" alt="Gryffindor"></td><td>albus.dumbledore@epitech.eu</td><td>+50</td></tr><tr class="gryffindor"><td><img class="undefined" src="./React App_files/gryffindor.png" alt="Gryffindor"></td><td>albus.dumbledore@epitech.eu</td><td>+50</td></tr><tr class="gryffindor"><td><img class="undefined" src="./React App_files/gryffindor.png" alt="Gryffindor"></td><td>albus.dumbledore@epitech.eu</td><td>+50</td></tr><tr class="gryffindor"><td><img class="undefined" src="./React App_files/gryffindor.png" alt="Gryffindor"></td><td>albus.dumbledore@epitech.eu</td><td>+50</td></tr></tbody></table></div></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  <script src="./React App_files/bundle.js"></script><script src="./React App_files/vendors_main.chunk.js"></script><script src="./React App_files/main.chunk.js"></script>
+
+</body></html>
