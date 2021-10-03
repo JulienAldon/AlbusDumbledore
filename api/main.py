@@ -153,6 +153,16 @@ async def house_point(request: Request,db: Session = Depends(get_db)):
     }
     return JSONResponse(content=result)
 
+@app.get('/students')
+async def all_students(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if not current_user:
+        raise HTTPException(status_code=401, detail="User not allowed")
+    student = db.query(Student).all()
+    if not student:
+        raise HTTPException(status_code=404, detail='No students')
+    student_list = [{"name": elem.name, "id": elem.id, "points": elem.points, "house": elem.house_id} for elem in student]
+    return JSONResponse(content=student_list)
+
 @app.get('/student/{student_id}')
 async def student_points(student_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     if not current_user:
