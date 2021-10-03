@@ -2,7 +2,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from secret import SQLALCHEMY_DATABASE_URL
-# engine = create_engine('postgresql+psycopg2://user:password@localhost/hpdb')
 
 # SQLALCHEMY_DATABASE_URL = "sqlite:///../sql_app.db"
 
