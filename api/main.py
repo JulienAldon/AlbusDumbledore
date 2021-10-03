@@ -22,7 +22,7 @@ from secret import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, origins, 
 
 limiter = Limiter(key_func=get_remote_address)
 
-app = FastAPI(root_path="/api")
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
@@ -102,7 +102,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-@app.post("/token", response_model=Token)
+@app.post("/api/token", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user_db = db.query(User).filter_by(username=form_data.username).first()
     user = authenticate_user(form_data.username, form_data.password, user_db)
@@ -118,7 +118,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     )
     return JSONResponse(content={"access_token": access_token, "token_type": "bearer"})
 
-@app.post('/students/import')
+@app.post('/api/students/import')
 async def import_students(file: UploadFile = File(...), db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     if not current_user:
         raise HTTPException(status_code=401, detail="User not allowed")
@@ -135,7 +135,7 @@ async def import_students(file: UploadFile = File(...), db: Session = Depends(ge
         return JSONResponse(content={'data': f'Added {nb_added} listed students (all of them are already in db)'})
     return JSONResponse(content={'data': f'Added {nb_added} listed students'})
     
-@app.get('/houses')
+@app.get('/api/houses')
 @limiter.limit("5/minute")
 async def house_point(request: Request,db: Session = Depends(get_db)):
     houses = db.query(House).all()
@@ -153,7 +153,7 @@ async def house_point(request: Request,db: Session = Depends(get_db)):
     }
     return JSONResponse(content=result)
 
-@app.get('/students')
+@app.get('/api/students')
 async def all_students(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     if not current_user:
         raise HTTPException(status_code=401, detail="User not allowed")
@@ -163,7 +163,7 @@ async def all_students(db: Session = Depends(get_db), current_user: User = Depen
     student_list = [{"name": elem.name, "id": elem.id, "points": elem.points, "house": elem.house_id} for elem in student]
     return JSONResponse(content=student_list)
 
-@app.get('/student/{student_id}')
+@app.get('/api/student/{student_id}')
 async def student_points(student_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     if not current_user:
         raise HTTPException(status_code=401, detail="User not allowed")
@@ -174,7 +174,7 @@ async def student_points(student_id: int, db: Session = Depends(get_db), current
         raise HTTPException(status_code=404, detail='cannot find specified student')
     return JSONResponse(content={"student_id": student_id, "points": student.points, "house": house.name})
 
-@app.get('/house/{house_id}')
+@app.get('/api/house/{house_id}')
 async def house_points(house_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     if not current_user:
         raise HTTPException(status_code=401, detail="User not allowed")
@@ -184,7 +184,7 @@ async def house_points(house_id: int, db: Session = Depends(get_db), current_use
         raise HTTPException(status_code=404, detail='cannot find specified house')
     return JSONResponse(content={"house": house.name, "points": house.points})
 
-@app.put('/student/{student_id}/{points}')
+@app.put('/api/student/{student_id}/{points}')
 async def add_student_points(student_id: int, points, db: Session = Depends(get_db), current_user: User = Depends(get_current_user), reason: Optional[str] = ""):
     if not current_user:
         raise HTTPException(status_code=401, detail="User not allowed")
@@ -208,7 +208,7 @@ async def add_student_points(student_id: int, points, db: Session = Depends(get_
     db.commit()
     return JSONResponse(content={"student": student.name, "house": {"id": house.id ,"name": house.name, "points": house.points}})
 
-@app.get('/students/logs')
+@app.get('/api/students/logs')
 async def get_student_log(db: Session = Depends(get_db)):
     student_log = db.query(PointLogs).filter(
         func.date(PointLogs.date_time) == date.today()
@@ -221,7 +221,7 @@ async def get_student_log(db: Session = Depends(get_db)):
 class UselessBody(BaseModel):
     canWork: bool
 
-@app.get('/hidden/secret/route')
+@app.get('/api/hidden/secret/route')
 @limiter.limit("5/minute")
 async def hidden_secret_route(request: Request, body: UselessBody, db:Session = Depends(get_db)):
     useless = db.query(UselessModel).first()
