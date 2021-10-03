@@ -79,7 +79,7 @@ const Dashboard = () => {
     return (
         <>
             {points !== null
-                ? <main className={`${styles.gauges} gauges`}>
+                ? <main className={`${styles.gauges} gauges`} style={{background: `url(${process.env.PUBLIC_URL}/latest.png)`}}>
                     <div style={{"--size": points["Gryffindor"]/scale}} className={`${styles.gryffindor} gryffindor`}></div>
                     <div style={{"--size": points["Hufflepuff"]/scale}} className={`${styles.hufflepuff} hufflepuff`}></div>
                     <div style={{"--size": points["Ravenclaw"]/scale}} className={`${styles.ravenclaw} ravenclaw`}></div>
