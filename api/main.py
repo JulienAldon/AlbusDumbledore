@@ -23,7 +23,6 @@ from secret import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, origins, 
 limiter = Limiter(key_func=get_remote_address)
 
 app = FastAPI()
-app.include_router("/api")
 
 app.add_middleware(
     CORSMiddleware,
