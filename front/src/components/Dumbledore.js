@@ -40,6 +40,7 @@ const Dumbledore = () => {
         })).catch(err => {
             console.error(err)
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const submit = () => {
@@ -49,7 +50,7 @@ const Dumbledore = () => {
                 'Authorization': `Bearer ${auth.user.access_token}`,
             }
         }).then(res => {
-            if (res.status == 200)
+            if (res.status === 200)
                 history.push("/")
         })
     }

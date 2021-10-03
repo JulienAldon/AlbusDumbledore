@@ -14,7 +14,7 @@ const Login = () => {
 
     const submit = (e) => {
         e.preventDefault()
-        if (loginRef.current.value == "" || pwdRef.current.value == "")
+        if (loginRef.current.value === "" || pwdRef.current.value === "")
             return
         auth.signin(loginRef.current.value, pwdRef.current.value).then(() => {
             history.push('/dumbledore')
