@@ -203,7 +203,7 @@ async def get_student_log(db: Session = Depends(get_db)):
     student_log = db.query(PointLogs).filter(
         func.date(PointLogs.date_time) == date.today()
     ).all()
-    json_student_log = [{'name': elem.student_name, 'points': elem.student_points, 'reason': elem.reason} for elem in student_log]
+    json_student_log = [{'id': elem.id,'name': elem.student_name, 'points': elem.student_points, 'reason': elem.reason} for elem in student_log]
     if not json_student_log:
         raise HTTPException(status_code=404, detail="no student log for today")
     return JSONResponse(content=json_student_log)
