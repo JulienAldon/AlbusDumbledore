@@ -138,7 +138,7 @@ async def import_students(file: UploadFile = File(...), db: Session = Depends(ge
 @app.get('/api/houses')
 @limiter.limit("5/minute")
 async def house_point(request: Request,db: Session = Depends(get_db)):
-    houses = db.query(House).all()
+    houses = db.query(House).order_by(House.id.asc()).all()
     if not houses:
         raise HTTPException(
             status_code=404,
