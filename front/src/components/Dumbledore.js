@@ -44,7 +44,7 @@ const Dumbledore = () => {
     }, [])
 
     const submit = () => {
-        fetch(`${config.url}/student/${student}/${points}/?reason=${reason}`, {
+        fetch(`${config.url}/student/${student}/${points}?reason=${reason}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${auth.user.access_token}`,
