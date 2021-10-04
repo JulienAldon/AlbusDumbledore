@@ -145,12 +145,7 @@ async def house_point(request: Request,db: Session = Depends(get_db)):
             detail="Houses not found",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    result = {
-        "Slytherin": houses[0].points,
-        "Hufflepuff": houses[1].points,
-        "Ravenclaw": houses[2].points,
-        "Gryffindor": houses[3].points,
-    }
+    result = {h.name: h.points for h in houses}
     return JSONResponse(content=result)
 
 @app.get('/api/students')
