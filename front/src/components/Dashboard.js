@@ -20,7 +20,7 @@ const LogRow = ({log}) => {
                 <img className={`${styles.house}`} src={`${houses[log.house].toLowerCase()}.png`} alt="Gryffindor" />
             </td>
             <td>
-                <div>{log.name}</div>
+                {log.points > 0 ? <div>{log.name}</div> : null}
                 <div>{log.reason}</div>
             </td>
             <td className={styles.logPoints}>{`${log.points > 0 ? "+" : ""}${log.points}`}</td>
