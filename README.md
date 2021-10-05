@@ -19,3 +19,12 @@ By user, by houses :
 | PUT        | /student/`<id>`/`<points>` |  Student Add Points |
 | PUT        | /house/`<id>`/`<points>`   |  House Add Points   |
 | POST       | /students/import |  Import Students    |
+| GET | /houses | House points |
+| GET | /students/logs | Logs of added points |
+| GET | /students | All students |
+
+
+Made by :
+- Arthur Lemaire
+- Julien Aldon
+- Neil Cecchini
