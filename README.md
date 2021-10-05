@@ -38,8 +38,11 @@ This script must initialize:
 - UselessModel(id, hasBeenPingued)
 - UserAdmin definition
 
+# Production
+- `docker-compose up --build -d`
+- `docker-compose exec auth pipenv run python populate_db.py`
 
 Made by :
-- Arthur Lemaire
-- Julien Aldon
-- Neil Cecchini
+- Arthur Lemaire (React Front)
+- Julien Aldon (FastAPIBackend)
+- Neil Cecchini (Css and html layout mock-up)
