@@ -2,7 +2,7 @@ div.dumbledore {
     margin: .5 rem;
 }
 
-div.dumbledore label {
+div.dumbledore > label {
     display: block;
 }
 
