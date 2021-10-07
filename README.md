@@ -42,6 +42,13 @@ This script must initialize:
 - `docker-compose up --build -d`
 - `docker-compose exec auth pipenv run python populate_db.py`
 
+# Setup front
+
+Build using: 
+`npm install`
+`npm run build`
+Serve the build file from the nginx server.
+
 Made by :
 - Arthur Lemaire (React Front)
 - Julien Aldon (FastAPIBackend)

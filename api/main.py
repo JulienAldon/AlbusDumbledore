@@ -102,6 +102,30 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
+@app.put('/api/students/{points}')
+async def bulk_student(points: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user), file: UploadFile = File(...), reason: Optional[str] = ""):
+    if not current_user:
+        raise HTTPException(status_code=401, detail="User not allowed")
+    csv_entry = file.file.read().decode().splitlines()
+    csv_list = [n for n in csv_entry]
+    student_maj = 0
+    for entry in csv_list:
+        stud = db.query(Student).filter_by(name=entry).first()
+        stud.points += points
+        pts_log = PointLogs(student_name=stud.name, student_points=points, date_time=datetime.now(), reason=reason)
+        db.add(pts_log)
+        student_maj += 1
+    db.commit()
+    houses = db.query(House).all()
+    for house in houses:
+        students = db.query(Student).filter_by(house_id=house.id).all()
+        house_points = 0
+        for stud in students:
+            house_points += stud.points 
+        house.points = house_points    
+    db.commit()
+    return JSONResponse(content={"nb_students": student_maj, "points_added_per_students": points, "points_added": student_maj * points})
+
 @app.post("/api/token", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user_db = db.query(User).filter_by(username=form_data.username).first()
