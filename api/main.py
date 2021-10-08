@@ -240,7 +240,7 @@ async def get_student_log(db: Session = Depends(get_db)):
 class UselessBody(BaseModel):
     canWork: bool
 
-@app.get('/api/hidden/secret/route')
+@app.post('/api/hidden/secret/route')
 @limiter.limit("5/minute")
 async def hidden_secret_route(request: Request, body: UselessBody, db:Session = Depends(get_db)):
     useless = db.query(UselessModel).first()

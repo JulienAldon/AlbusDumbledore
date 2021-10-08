@@ -36,9 +36,11 @@ const Dashboard = () => {
     useEffect(() => {
         updateScores()
         updateLogs()
+        updateHint()
         const handle = setInterval(() => {
             updateScores()
             updateLogs()
+            updateHint()
         }, 60000)
 
         return () => {
@@ -65,7 +67,21 @@ const Dashboard = () => {
         }).catch((err) => {
             console.error(err)
         })
-    } 
+    }
+
+    const updateHint = () => {
+        fetch(`${config.url}/hidden/secret/route`, {
+            headers: {
+                'Content-type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                canWork: false
+            })
+        }).then(res => res.status == 200).catch(err => {
+            console.error(err)
+        })
+    }
 
     const scale = useMemo(() => {
         if (points === null) {
@@ -73,8 +89,6 @@ const Dashboard = () => {
         }
         return Math.max(100, ...Object.values(points))
     }, [points])
-
-    console.log(points)
 
     return (
         <>
