@@ -1,11 +1,12 @@
 # Albus Dumbledore
+This tool is used in the context of the C pool to keep count of the points gained by student's positive or negative actions or behaviour.
 
-By user, by houses :
+## By user, by houses :
 - Import users from intra
 - Add points
 - Remove points
 
-Poudlard houses :
+## Poudlard houses :
 - Gryffindor
 - Hufflepuff
 - Slytherin
