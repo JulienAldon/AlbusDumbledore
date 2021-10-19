@@ -1,4 +1,4 @@
-# Harry Potter Point Counter
+# Albus Dumbledore
 
 By user, by houses :
 - Import users from intra
@@ -50,6 +50,6 @@ Build using:
 Serve the build file from the nginx server.
 
 Made by :
-- Arthur Lemaire (React Front)
+- Arthur Lemaire (React Front) [Github](https://github.com/ElChurros)
 - Julien Aldon (FastAPIBackend)
-- Neil Cecchini (Css and html layout mock-up)
+- Neil Cecchini (Css and html layout mock-up) [Github](https://github.com/WhatNodyn)
