@@ -49,7 +49,7 @@ Build using:
 `npm run build`
 Serve the build file from the nginx server.
 
-Made by :
+# Made by
 - Arthur Lemaire (React Front) [Github](https://github.com/ElChurros)
-- Julien Aldon (FastAPIBackend)
 - Neil Cecchini (Css and html layout mock-up) [Github](https://github.com/WhatNodyn)
+- Julien Aldon (FastAPIBackend)
