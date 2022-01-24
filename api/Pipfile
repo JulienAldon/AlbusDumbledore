@@ -10,6 +10,7 @@ passlib = {extras = ["bcrypt"], version = "*"}
 python-jose = "*"
 psycopg2 = "*"
 slowapi = "*"
+ujson = "*"
 
 [dev-packages]
 
